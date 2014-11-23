@@ -1,0 +1,12 @@
+<html>
+	<head>
+	</head>
+	<body>helloworld!!</body>
+		<script>
+chrome.extension.onRequest.addListener( 
+  function(request, sender, sendResponse) { 
+	  document.body.innerHTML = request.greeting;
+  });
+		</script>
+</html>
+

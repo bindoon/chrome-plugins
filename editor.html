@@ -1,0 +1,144 @@
+<html>
+	<head>
+
+	</head>
+	<title>editor</title>
+	<style>
+body#editor {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	text-align: left;
+	font: 12px Verdana, Arial, Helvetica, sans-serif;
+	background: #4180B6;
+}
+
+div#header {
+	color: #fff;
+	margin: 0 auto;
+	padding: 0;
+	border: 0;
+	height: 90px;
+	background: #4180B6;
+	width: 100%;
+}
+
+div#test {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	height: 495px;
+	background: #4180B6;
+}
+
+div#code {
+	float: left;
+	height: 495px;
+	width: 49%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: #2C587C;
+}
+
+div#butt {
+	float: left;
+	height: 400px;
+	width: 2%;
+	margin: 40px, 0px;
+	padding: 0;
+	background: #C8D7E3;
+}
+
+div#result {
+	float: right;
+	height: 495px;
+	width: 49%;
+	margin: 0;
+	padding: 0;
+	background: #880000;
+}
+
+#header h1 {
+	margin: 20px 0 0 0;
+	padding: 0;
+	font-size: 30px;
+	float: left;
+	vertical-align: middle;
+}
+
+#butt input {
+	writing-mode: tb-rl; scrollWidth：100 %;
+	background: yellow;
+	color: #293D6B;
+	width: 100%;
+	height: 100%;
+	font: 12px Verdana, Arial, Helvetica, sans-serif;
+}
+
+#code textarea {
+	margin: 0;
+	padding: 10px 0 0 5px;
+	border: 0;
+	width: 100%;
+	overflow: auto;
+	height: 400px;
+	font: 12px "Courier New", Courier, monospace;
+}
+
+#result iframe {
+	margin: 0;
+	padding: 0;
+	width: 99%;
+	height: 400px;
+	background: #fff;
+}
+</style>
+	<body id="editor">
+		<div id="header">
+			<h1>
+				HTML EDITOR
+			</h1>
+		</div>
+		<div id="test">
+			<div id="code">
+				<h2>
+					edit your code here
+				</h2>
+				<TEXTAREA id="runcode" cols="80" rows="24 ">
+<html>
+<body>
+
+<script language="javascript">
+
+</script>  
+</body>
+</html>
+				</TEXTAREA>
+			</div>
+			<div id="butt">
+				<INPUT onclick="runEx('runcode')" type="button" value="RUN" />
+			</div>
+			<div id="result">
+				<h2>
+					result:
+				</h2>
+				<iframe id="ihtml" value=""></iframe>
+			</div>
+		</div>
+			<script type="text/javascript">
+function runEx(id){
+	var textid = document.getElementById(id);
+	if (textid.value != ""){
+		var iframe = document.getElementById("ihtml");
+		doc = iframe.contentWindow.document;
+		doc.write(textid.value);
+		doc.close();
+	}
+}
+var iframe = document.getElementById("ihtml");
+iframe.innerHTML = ("");
+</script>
+	</body>
+</html>
+

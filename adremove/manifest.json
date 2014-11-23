@@ -1,0 +1,16 @@
+{
+"name": "adremove",
+"version": "1.0",
+"description": "ad remove for v.qq.com and youku.com.",
+"permissions": [ "http://v.qq.com/","http://*.youku.com" ],
+"browser_action": {
+    "default_icon": "icon.png",
+    "popup":"adremove.html"
+},
+"content_scripts": [ 
+{ 
+      "matches": ["http://v.qq.com/*"], 
+      "js": ["adremove.js"] 
+} ]
+
+}
