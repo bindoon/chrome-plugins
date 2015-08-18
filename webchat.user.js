@@ -1,35 +1,39 @@
-﻿// ==UserScript==
-// @name       webchat spm
-// @namespace  http://use.i.E.your.homepage/
-// @version    0.0.1
-// @description clock ssystem 
-// @require  https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js
-// @match    https://wx.qq.com
-// @copyright  2015+, frankqian
+// ==UserScript==
+// @name          webchat打点
+// @namespace     webchat.spm
+// @description   webchat打点
+// @include       https://wx.qq.com/*
+// @version       2.0
+// @grant           unsafeWindow
+// @grant           GM_getValue
+// @grant           GM_setValue
+// @run-at        document-end
 // ==/UserScript==
 
+
+
 var load, execute, loadAndExecute;
-load=function(src,success,error){	
-	var script=document.createElement("script");
-	script.setAttribute("src",src);
-	
-	success!=null&&script.addEventListener("load",success);
-	error!=null&&script.addEventListener("error",error);
-	document.body.appendChild(script);
-	return script
+load=function(src,success,error){   
+    var script=document.createElement("script");
+    script.setAttribute("src",src);
+    
+    success!=null&&script.addEventListener("load",success);
+    error!=null&&script.addEventListener("error",error);
+    document.body.appendChild(script);
+    return script
 };
 //nserts a function or string of code into the document and executes it. The functions are converted to source code before being inserted, so they lose their current scope/closures and are run underneath the global window scope.
 execute=function(success){
-	var b,c;
-	typeof success=="function"?b="("+success+")();":b=success;
-	c=document.createElement("script"),c.textContent=b,document.body.appendChild(c);
-	return c
+    var b,c;
+    typeof success=="function"?b="("+success+")();":b=success;
+    c=document.createElement("script"),c.textContent=b,document.body.appendChild(c);
+    return c
 };
 loadAndExecute=function(src,success,error)
-{	
-	return load(src,function(){	
-		return execute(success);
-	},error)
+{   
+    return load(src,function(){ 
+        return execute(success);
+    },error)
 };
 
 
