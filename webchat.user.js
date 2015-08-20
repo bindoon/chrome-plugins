@@ -38,28 +38,7 @@ loadAndExecute=function(src,success,error)
 
 
 execute( function() {
-        Date.prototype.format = function(format){ 
-            var o = { 
-            "M+" : this.getMonth()+1, //month 
-            "d+" : this.getDate(), //day 
-            "h+" : this.getHours(), //hour 
-            "m+" : this.getMinutes(), //minute 
-            "s+" : this.getSeconds(), //second 
-            "q+" : Math.floor((this.getMonth()+3)/3), //quarter 
-            "S" : this.getMilliseconds() //millisecond 
-            } 
-            if(/(y+)/.test(format)) { 
-                format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
-            } 
-            for(var k in o) { 
-                if(new RegExp("("+ k +")").test(format)) { 
-                    format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length)); 
-                } 
-            } 
-            return format; 
-        }
-
-var msgdom = $('<div>').css({
+var msgdom = $('<table border=1 >').css({
   position:'fixed',
   top:0,
   left:0,
@@ -67,12 +46,22 @@ var msgdom = $('<div>').css({
   color:'#000'
 });
 msgdom.appendTo($('body'));
-function log(msg) {
-msgdom.append(msg);
+msgdom.append('<tr><<th>早</th><th>晚</th><th>昵称</th></tr>');
+function log(msg,isnew) {
+  if (isnew) {
+    $('<tr>').attr('data-nick',msg.title).html(['<td>',msg.morning,'</td><td>',msg.night,'</td><td>',msg.title,'</td>'].join('')).appendTo(msgdom)
+  } else {
+    msgdom.find('tr[data-nick="'+msg.title+'"]').html(['<td>',msg.morning,'</td><td>',msg.night,'</td><td>',msg.title,'</td>'].join(''));
+  }
 }
 
 var peopleMap = {};
 function getChatContent() {
+  var title = $('#chatArea .title_name').text();
+  if (!title.match(/和君8届北京现场/)) {
+    return;
+  };
+  if (true) {};
    var chatdom = $('#chatArea .avatar');
    chatdom.each(function(i,dom) { 
        var avatar = $(dom);
@@ -81,17 +70,39 @@ function getChatContent() {
        }
 
        avatar.attr('has-checked',true);
+
        var title = avatar.attr('title');
        var pic = avatar.attr('src');
-       if(title in peopleMap) {
-            return;
+
+       var content = avatar.parent().find('.js_message_plain').text();
+       var morning = '';
+       var night = '';
+       if (content.match(/早上好/)) {
+          morning = 'Y';
+       } else if (content.match(/晚安/)) {
+          night = 'Y';
        }
 
-       peopleMap[title]={
+       var isnew = true;
+
+       if(title in peopleMap) {
+          isnew = false;
+          if ( peopleMap[title].morning && peopleMap[title].night) {
+            return;
+          };
+          peopleMap[title].morning= morning||peopleMap[title].morning;
+          peopleMap[title].night= night||peopleMap[title].night;
+
+       } else {
+         peopleMap[title]={
+            title:title,
             pic:pic,
-            time:(new Date()).format('yyyy-MM-dd hh:mm:ss')
-       };
-      log(peopleMap[title].time+' '+title+'<br/>');
+            morning:morning,
+            night:night
+         };
+       }
+
+      log(peopleMap[title],isnew);
    });
 }
     setInterval(function(){
